@@ -30,7 +30,6 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody @Valid UserRequest userRequest, BindingResult bindingResult) {
-        userRequest.getEmail();
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
