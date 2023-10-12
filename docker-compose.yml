@@ -1,0 +1,44 @@
+version: '1'
+
+services:
+  apirestpostgres:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresDB
+    networks:
+      - apirestpostgres-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresDB:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  postgresDB:
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - apirestpostgres-network
+      - apirestpostgresfrontend-network
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=matrimony
+  angularpostgres:
+    build:
+      context: ../angular-postgres
+      dockerfile: Dockerfile
+      ports:
+        - "4200:80"
+      depends_on:
+        - apirestpostgres
+      networks:
+        - apirestpostgresfrontend-network
+networks:
+  apirestpostgres-network:
+    driver: bridge
+  apirestpostgresfrontend-network:
+    driver: bridge
