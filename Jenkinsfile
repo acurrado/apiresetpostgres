@@ -13,13 +13,14 @@ pipeline {
 
 		stage('Build'){
 			steps {
-				bat "mvn clean install -DskipTests"
+				sh 'pwd'
+				sh 'mvn clean install package'
 			}
 		}
 
 		stage('Test'){
 			steps{
-				bat "mvn test"
+				sh "mvn test"
 			}
 		}
 	}
