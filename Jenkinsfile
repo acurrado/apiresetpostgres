@@ -4,6 +4,7 @@ pipeline {
 	tools {
 	    maven 'jenkins-maven'
 		jdk 'java-17'
+		docker 'docker-jenkins'
 	}
 
 	stages {
