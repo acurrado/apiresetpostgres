@@ -27,7 +27,8 @@ pipeline {
                script {
                  def customImage = docker.build('ruyeri/apirestexample', "./docker")
                  docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                 customImage.push("1")
+                    customImage.push("1")
+                 }
                }
            }
         }
