@@ -15,10 +15,21 @@ pipeline {
 			}
 		}
 
-		stage('Test'){
-			steps{
-				sh "mvn test"
-			}
-		}
+		stage('Copy Artifact') {
+           steps {
+                sh 'pwd'
+                sh 'cp -r target/*.jar docker'
+           }
+        }
+
+		stage('Build docker image') {
+           steps {
+               script {
+                 def customImage = docker.build('ruyeri/apirestexample', "./docker")
+                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                 customImage.push("1")
+               }
+           }
+        }
 	}
 }
